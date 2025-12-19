@@ -23,6 +23,95 @@ export default function Home() {
 
   return (
     <main className="main-container">
+      {/* Small Floating Shrek Images */}
+      <div className="floating-shreks">
+        <div className="floating-shrek float1">
+          <img 
+            src="/shrek/image1.jpg" 
+            alt="Shrek" 
+            className="floating-img"
+            loading="lazy"
+            onError={(e) => {
+              console.error('Image failed to load, using emoji fallback');
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '<div style="font-size: 60px; animation: floatAround 10s ease-in-out infinite;">🟢</div>';
+              }
+            }}
+            onLoad={() => console.log('Floating Shrek image loaded')}
+          />
+        </div>
+        <div className="floating-shrek float2">
+          <img 
+            src="/shrek/image2.jpg" 
+            alt="Shrek" 
+            className="floating-img"
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '<div style="font-size: 50px;">🟢</div>';
+              }
+            }}
+          />
+        </div>
+        <div className="floating-shrek float3">
+          <img 
+            src="/shrek/image3.jpg" 
+            alt="Shrek" 
+            className="floating-img"
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '<div style="font-size: 50px;">🟢</div>';
+              }
+            }}
+          />
+        </div>
+        <div className="floating-shrek float4">
+          <img 
+            src="/shrek/image4.jpg" 
+            alt="Shrek" 
+            className="floating-img"
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '<div style="font-size: 50px;">🟢</div>';
+              }
+            }}
+          />
+        </div>
+        <div className="floating-shrek float5">
+          <img 
+            src="/shrek/image5.jpg" 
+            alt="Shrek" 
+            className="floating-img"
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '<div style="font-size: 50px;">🟢</div>';
+              }
+            }}
+          />
+        </div>
+        <div className="floating-shrek float6">
+          <img 
+            src="/shrek/image6.jpg" 
+            alt="Shrek" 
+            className="floating-img"
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '<div style="font-size: 50px;">🟢</div>';
+              }
+            }}
+          />
+        </div>
+      </div>
+
       {/* Confetti Animation */}
       <div className="confetti-container">
         {confetti.map((particle) => (
@@ -48,8 +137,124 @@ export default function Home() {
         <div className="balloon balloon6">🎈</div>
       </div>
 
+      {/* Shrek Characters Animation */}
+      <div className="shrek-characters">
+        <div className="shrek-character shrek1">
+          <img 
+            src="/shrek/image1.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '50px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character shrek2">
+          <img 
+            src="/shrek/image2.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '50px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character donkey1">
+          <img 
+            src="/shrek/image3.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '45px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character donkey2">
+          <img 
+            src="/shrek/image4.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '45px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character puss1">
+          <img 
+            src="/shrek/image5.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '40px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character puss2">
+          <img 
+            src="/shrek/image6.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '40px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character fiona1">
+          <img 
+            src="/shrek/image1.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '45px';
+              }
+            }}
+          />
+        </div>
+        <div className="shrek-character fiona2">
+          <img 
+            src="/shrek/image2.jpg" 
+            alt="Shrek" 
+            className="shrek-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.parentElement) {
+                e.currentTarget.parentElement.innerHTML = '🟢';
+                e.currentTarget.parentElement.style.fontSize = '45px';
+              }
+            }}
+          />
+        </div>
+      </div>
+
       {/* Main Content */}
-      <div className={`content ${showContent ? 'show' : ''}`}>
+      <div className="content">
         <h1 className="title">
           <span className="letter">H</span>
           <span className="letter">a</span>
@@ -70,11 +275,15 @@ export default function Home() {
         
         <div className="message-container">
           <p className="message highlight">Happy Birthday! 🎉</p>
+          <p className="message shrek-quote">&quot;What are you doing in my swamp?&quot; - Celebrating your birthday! 🎂</p>
           <p className="message">All the very best for your business career! 💼</p>
           <p className="message highlight">I wish you achieve and grow this to the next level! 🚀</p>
+          <p className="message funny shrek-quote">&quot;Ogres are like onions... layers!&quot; Just like your success! 🧅</p>
           <p className="message funny">May your business grow faster than your age! 📈</p>
-          <p className="message funny">Here's to making it rain... success! 💰</p>
+          <p className="message funny">Here&apos;s to making it rain... success! 💰</p>
+          <p className="message shrek-quote">&quot;This is the part where you run away!&quot; - From failures, straight to success! 🏃</p>
           <p className="message">Keep leveling up, both in life and business! 🎯</p>
+          <p className="message highlight shrek-quote">May your year be as legendary as Shrek&apos;s adventures! 🟢</p>
         </div>
 
         <div className="cake-container">

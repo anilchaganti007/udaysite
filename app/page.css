@@ -1,15 +1,132 @@
 .main-container {
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background-image: url('/shrek/banner.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
   padding: 20px;
+}
+
+.main-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+}
+
+/* Background Shrek Image - Removed, using CSS background instead */
+.shrek-background {
+  display: none;
+}
+
+@keyframes lazyFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(5deg);
+  }
+}
+
+/* Small Floating Shrek Images */
+.floating-shreks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.floating-shrek {
+  position: absolute;
+  animation: floatAround 15s ease-in-out infinite;
+}
+
+.floating-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+  opacity: 0.9;
+  display: block;
+}
+
+.float1 {
+  left: 5%;
+  top: 15%;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.float2 {
+  left: 85%;
+  top: 25%;
+  animation-delay: 1.5s;
+  animation-duration: 12s;
+}
+
+.float3 {
+  left: 15%;
+  top: 75%;
+  animation-delay: 3s;
+  animation-duration: 11s;
+}
+
+.float4 {
+  left: 75%;
+  top: 65%;
+  animation-delay: 0.5s;
+  animation-duration: 13s;
+}
+
+.float5 {
+  left: 45%;
+  top: 5%;
+  animation-delay: 2s;
+  animation-duration: 9s;
+}
+
+.float6 {
+  left: 25%;
+  top: 85%;
+  animation-delay: 4s;
+  animation-duration: 14s;
+}
+
+@keyframes floatAround {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  25% {
+    transform: translate(50px, -50px) rotate(90deg) scale(1.2);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-40px, -80px) rotate(180deg) scale(0.8);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translate(60px, -40px) rotate(270deg) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
 }
 
 @keyframes gradientShift {
@@ -32,7 +149,7 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .confetti {
@@ -82,7 +199,7 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
 }
 
 .balloon {
@@ -141,40 +258,186 @@
   }
 }
 
+/* Shrek Characters Animation */
+.shrek-characters {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.shrek-character {
+  position: absolute;
+  animation: shrekFloat 8s ease-in-out infinite;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shrek-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.4));
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.shrek1 {
+  left: 5%;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.shrek2 {
+  left: 95%;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+
+.donkey1 {
+  left: 15%;
+  animation-delay: 1s;
+  animation-duration: 9s;
+}
+
+.donkey1 .shrek-img {
+  width: 70px;
+  height: 70px;
+}
+
+.donkey2 {
+  left: 85%;
+  animation-delay: 3s;
+  animation-duration: 11s;
+}
+
+.donkey2 .shrek-img {
+  width: 70px;
+  height: 70px;
+}
+
+.puss1 {
+  left: 30%;
+  animation-delay: 0.5s;
+  animation-duration: 8s;
+}
+
+.puss1 .shrek-img {
+  width: 60px;
+  height: 60px;
+}
+
+.puss2 {
+  left: 70%;
+  animation-delay: 2.5s;
+  animation-duration: 9s;
+}
+
+.puss2 .shrek-img {
+  width: 60px;
+  height: 60px;
+}
+
+.fiona1 {
+  left: 50%;
+  animation-delay: 1.5s;
+  animation-duration: 10s;
+}
+
+.fiona1 .shrek-img {
+  width: 65px;
+  height: 65px;
+}
+
+.fiona2 {
+  left: 25%;
+  animation-delay: 4s;
+  animation-duration: 11s;
+}
+
+.fiona2 .shrek-img {
+  width: 65px;
+  height: 65px;
+}
+
+@keyframes shrekFloat {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(70vh) translateX(30px) rotate(5deg) scale(1);
+  }
+  50% {
+    transform: translateY(40vh) translateX(-20px) rotate(-5deg) scale(1.1);
+  }
+  75% {
+    transform: translateY(20vh) translateX(25px) rotate(3deg) scale(1);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(-30px) rotate(-8deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
 /* Content */
 .content {
   position: relative;
   z-index: 10;
   text-align: center;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 1s ease;
-}
-
-.content.show {
-  opacity: 1;
-  transform: scale(1);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+              inset 0 0 20px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Title Animation */
 .title {
   font-size: clamp(2.5rem, 8vw, 6rem);
   font-weight: 900;
-  color: white;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3),
-               0 0 20px rgba(255, 255, 255, 0.5);
+  color: #ffffcc;
   margin-bottom: 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 5px;
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
 }
 
 .letter {
   display: inline-block;
-  animation: bounce 1s ease infinite;
+  animation: bounceRotate 2s ease infinite;
   animation-fill-mode: both;
+  transition: transform 0.3s ease;
+}
+
+.letter:hover {
+  transform: scale(1.3) rotate(10deg);
 }
 
 .letter:nth-child(1) { animation-delay: 0.1s; }
@@ -193,44 +456,71 @@
 
 .emoji {
   display: inline-block;
-  animation: spin 2s ease-in-out infinite;
+  animation: spinPulse 2s ease-in-out infinite;
   font-size: clamp(2rem, 6vw, 4rem);
+}
+
+@keyframes spinPulse {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.3);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.5);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.3);
+  }
 }
 
 .space {
   width: 10px;
 }
 
-@keyframes bounce {
+@keyframes bounceRotate {
   0%, 100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) scale(1.15) rotate(-5deg);
   }
   50% {
-    transform: translateY(-20px) scale(1.1);
+    transform: translateY(-25px) scale(1.2) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) scale(1.15) rotate(5deg);
   }
 }
 
-@keyframes spin {
-  0%, 100% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.2);
-  }
-}
 
 /* Message */
 .message-container {
   margin: 40px 0;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #ffffcc;
 }
 
 .message {
   font-size: clamp(1.1rem, 2.5vw, 1.8rem);
   margin: 12px 0;
-  animation: fadeInUp 1s ease forwards;
-  opacity: 0;
+  animation: messageFloat 4s ease-in-out infinite;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #ffffcc;
+}
+
+.message:hover {
+  transform: scale(1.1) translateX(10px);
+  color: #ffffff;
+}
+
+@keyframes messageFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .message:nth-child(1) {
@@ -257,25 +547,85 @@
   animation-delay: 4s;
 }
 
+.message:nth-child(7) {
+  animation-delay: 4.5s;
+}
+
+.message:nth-child(8) {
+  animation-delay: 5s;
+}
+
+.message:nth-child(9) {
+  animation-delay: 5.5s;
+}
+
+.message:nth-child(10) {
+  animation-delay: 6s;
+}
+
 .message.funny {
   font-style: italic;
-  color: #fff9c4;
+  color: #ffeb99;
+  animation: funnyWiggle 3s ease-in-out infinite;
+}
+
+@keyframes funnyWiggle {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(3px) rotate(2deg);
+  }
+}
+
+.message.shrek-quote {
+  color: #ffffff;
+  font-weight: 700;
+  font-style: italic;
+  animation: quotePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes quotePulse {
+  0%, 100% {
+    transform: scale(1);
+    color: #ffffff;
+  }
+  50% {
+    transform: scale(1.05);
+    color: #ffffcc;
+  }
 }
 
 .highlight {
-  color: #ffe66d;
-  text-shadow: 0 0 20px rgba(255, 230, 109, 0.8);
+  color: #ffffff;
   font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+  font-weight: bold;
+  animation: highlightGlow 2s ease-in-out infinite;
+  display: inline-block;
 }
 
-@keyframes fadeInUp {
+@keyframes highlightGlow {
+  0%, 100% {
+    transform: scale(1);
+    color: #ffffff;
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ffffcc;
+  }
+}
+
+@keyframes fadeInUpSlide {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) translateX(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateX(0);
   }
 }
 
@@ -285,7 +635,7 @@
   display: flex;
   justify-content: center;
   animation: fadeInUp 1s ease forwards;
-  animation-delay: 4.5s;
+  animation-delay: 6.5s;
   opacity: 0;
 }
 
@@ -368,7 +718,7 @@
   gap: 30px;
   flex-wrap: wrap;
   animation: fadeInUp 1s ease forwards;
-  animation-delay: 5s;
+  animation-delay: 7s;
   opacity: 0;
 }
 
