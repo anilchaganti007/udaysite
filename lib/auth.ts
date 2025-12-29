@@ -41,6 +41,11 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
+        // Check if user is verified (default to true for backward compatibility with existing users)
+        if (user.isVerified === false) {
+          throw new Error('EMAIL_NOT_VERIFIED')
+        }
+
         return {
           id: user.id,
           email: user.email,

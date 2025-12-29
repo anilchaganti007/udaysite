@@ -73,8 +73,12 @@ export async function sendOrderConfirmationEmail(
 
 export async function sendWelcomeEmail(
   to: string,
-  customerName: string
+  customerName: string,
+  verificationToken?: string
 ) {
+  const verificationUrl = verificationToken 
+    ? `${process.env.APP_URL || 'http://localhost:3000'}/auth/verify?token=${verificationToken}`
+    : null
   const mailOptions = {
     from: process.env.SMTP_FROM || process.env.SMTP_USER,
     to,
@@ -100,7 +104,18 @@ export async function sendWelcomeEmail(
             <div class="content">
               <p>Dear ${customerName},</p>
               <p>Thank you for registering with ${process.env.APP_NAME || 'Eggbator'}! We&apos;re excited to have you as part of our community.</p>
-              <p>You can now:</p>
+              ${verificationUrl ? `
+              <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0;">
+                <p><strong>Important:</strong> To complete your registration and activate your account, please verify your email address.</p>
+                <p style="text-align: center; margin: 20px 0;">
+                  <a href="${verificationUrl}" class="button" style="background-color: #667eea;">Verify Email Address</a>
+                </p>
+                <p style="font-size: 0.9em; color: #666;">Or copy and paste this link into your browser:</p>
+                <p style="word-break: break-all; color: #667eea; font-size: 0.85em;">${verificationUrl}</p>
+                <p style="font-size: 0.85em; color: #666;">This verification link will expire in 24 hours.</p>
+              </div>
+              ` : ''}
+              <p>Once your account is verified, you can:</p>
               <ul>
                 <li>Browse our products and spare parts</li>
                 <li>Submit product enquiries</li>
@@ -183,6 +198,63 @@ export async function sendLeadNotificationToAdmins(
             </div>
             <div class="footer">
               <p>${process.env.APP_NAME || 'Eggbator'}</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  }
+
+  return transporter.sendMail(mailOptions)
+}
+
+export async function sendVerificationEmail(
+  to: string,
+  customerName: string,
+  verificationToken: string
+) {
+  const verificationUrl = `${process.env.APP_URL || 'http://localhost:3000'}/auth/verify?token=${verificationToken}`
+  
+  const mailOptions = {
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to,
+    subject: `Verify Your Email - ${process.env.APP_NAME || 'Eggbator'}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #667eea; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background-color: #f9f9f9; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #667eea; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+            .warning { background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Verify Your Email Address</h1>
+            </div>
+            <div class="content">
+              <p>Dear ${customerName},</p>
+              <p>Thank you for registering with ${process.env.APP_NAME || 'Eggbator'}! To complete your registration and activate your account, please verify your email address.</p>
+              <div class="warning">
+                <p><strong>Important:</strong> Your account is currently inactive. You must verify your email before you can log in.</p>
+              </div>
+              <p style="text-align: center;">
+                <a href="${verificationUrl}" class="button">Verify Email Address</a>
+              </p>
+              <p>Or copy and paste this link into your browser:</p>
+              <p style="word-break: break-all; color: #667eea;">${verificationUrl}</p>
+              <p>This verification link will expire in 24 hours.</p>
+              <p>If you did not create an account, please ignore this email.</p>
+              <p>Best regards,<br>${process.env.APP_NAME || 'The Eggbator Team'}</p>
+            </div>
+            <div class="footer">
+              <p>${process.env.APP_NAME || 'Eggbator - Professional Egg Incubator Solutions'}</p>
             </div>
           </div>
         </body>

@@ -35,7 +35,10 @@ export default function RegisterPage() {
         return
       }
 
-      router.push('/auth/login?registered=true')
+      // Show success message about email verification
+      setError('') // Clear any errors
+      alert(data.message || 'Registration successful! Please check your email to verify your account before logging in.')
+      router.push('/auth/login?registered=true&verify=true')
     } catch (err) {
       setError('An error occurred. Please try again.')
     } finally {

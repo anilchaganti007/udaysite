@@ -37,7 +37,11 @@ export default function LoginPage() {
       })
 
       if (result?.error) {
-        setError('Invalid email or password')
+        if (result.error === 'EMAIL_NOT_VERIFIED') {
+          setError('Please verify your email address before logging in. Check your inbox for the verification link.')
+        } else {
+          setError('Invalid email or password')
+        }
         setLoading(false)
       } else {
         // Wait for session to update, then redirect
@@ -89,10 +93,11 @@ export default function LoginPage() {
         {error && (
           <div style={{
             padding: '0.75rem',
-            background: '#fee',
-            color: '#c33',
+            background: error.includes('verify') ? '#fff3cd' : '#fee',
+            color: error.includes('verify') ? '#856404' : '#c33',
             borderRadius: '4px',
             marginBottom: '1rem',
+            borderLeft: error.includes('verify') ? '4px solid #ffc107' : '4px solid #c33',
           }}>
             {error}
           </div>

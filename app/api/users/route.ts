@@ -4,7 +4,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import bcrypt from 'bcryptjs'
 import { convertFirestoreDoc, queryCollection } from '@/lib/firebase-helpers'
-import { sendWelcomeEmail } from '@/lib/email'
+import { sendWelcomeEmail, sendVerificationEmail } from '@/lib/email'
+import crypto from 'crypto'
 
 export async function GET(request: NextRequest) {
   try {
@@ -71,6 +72,11 @@ export async function POST(request: NextRequest) {
       : (role || 'CUSTOMER')
 
     const hashedPassword = await bcrypt.hash(password, 10)
+    
+    // Generate verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    const verificationTokenExpiry = new Date()
+    verificationTokenExpiry.setHours(verificationTokenExpiry.getHours() + 24) // 24 hours expiry
 
     const userRef = db.collection(COLLECTIONS.USERS).doc()
     const userData = {
@@ -80,25 +86,39 @@ export async function POST(request: NextRequest) {
       phone: phone || null,
       address: address || null,
       role: userRole,
+      isVerified: false, // All users start unverified
+      verificationToken,
+      verificationTokenExpiry,
       createdAt: new Date(),
       updatedAt: new Date(),
     }
     await userRef.set(userData)
 
     const user = convertFirestoreDoc({ id: userRef.id, ...userData })
-    const { password: _, ...userWithoutPassword } = user
+    const { password: _, verificationToken: __, ...userWithoutPassword } = user
 
-    // Send welcome email to customers (not admins)
-    if (userRole === 'CUSTOMER') {
-      try {
-        await sendWelcomeEmail(email, name)
-      } catch (emailError) {
-        console.error('Error sending welcome email:', emailError)
-        // Don't fail registration if email fails
+    // Send welcome email with verification link (for both customers and admins)
+    // If admin creates user, send welcome email. If public registration, send verification email only
+    try {
+      if (session && session.user.role === 'ADMIN') {
+        // Admin created user - send welcome email with verification link
+        await sendWelcomeEmail(email, name, verificationToken)
+      } else {
+        // Public registration - send verification email
+        await sendVerificationEmail(email, name, verificationToken)
       }
+    } catch (emailError) {
+      console.error('Error sending email:', emailError)
+      // Don't fail registration if email fails, but log it
     }
 
-    return NextResponse.json(userWithoutPassword, { status: 201 })
+    return NextResponse.json(
+      { 
+        ...userWithoutPassword,
+        message: 'Registration successful! Please check your email to verify your account.'
+      }, 
+      { status: 201 }
+    )
   } catch (error) {
     console.error('Error creating user:', error)
     return NextResponse.json(
@@ -141,6 +161,56 @@ export async function PUT(request: NextRequest) {
     console.error('Error updating user:', error)
     return NextResponse.json(
       { error: 'Failed to update user' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session || session.user.role !== 'ADMIN') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const userId = searchParams.get('id')
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID is required' },
+        { status: 400 }
+      )
+    }
+
+    // Prevent admin from deleting themselves
+    if (session.user.id === userId) {
+      return NextResponse.json(
+        { error: 'You cannot delete your own account' },
+        { status: 400 }
+      )
+    }
+
+    // Check if user exists
+    const userDoc = await db.collection(COLLECTIONS.USERS).doc(userId).get()
+    if (!userDoc.exists) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      )
+    }
+
+    // Delete the user
+    await db.collection(COLLECTIONS.USERS).doc(userId).delete()
+
+    return NextResponse.json(
+      { message: 'User deleted successfully' },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.error('Error deleting user:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete user' },
       { status: 500 }
     )
   }

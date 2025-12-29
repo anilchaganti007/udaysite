@@ -84,14 +84,27 @@ async function createAdmin() {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     const userRef = db.collection('users').doc()
+    // Generate verification token for admin
+    const crypto = require('crypto')
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    const verificationTokenExpiry = new Date()
+    verificationTokenExpiry.setHours(verificationTokenExpiry.getHours() + 24) // 24 hours expiry
+
     await userRef.set({
       email,
       password: hashedPassword,
       name,
       role: 'ADMIN',
+      isVerified: false, // Admin also needs email verification
+      verificationToken,
+      verificationTokenExpiry,
       createdAt: new Date(),
       updatedAt: new Date(),
     })
+    
+    console.log('\n⚠️  IMPORTANT: Admin account created but NOT verified!')
+    console.log('   An email verification link has been sent to:', email)
+    console.log('   The admin must verify their email before they can log in.')
 
     console.log('Admin user created successfully!')
     console.log('ID:', userRef.id)
