@@ -26,6 +26,8 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
+  // Mark firebase-admin as server-only external package
+  serverExternalPackages: ['firebase-admin'],
 }
 
 module.exports = nextConfig

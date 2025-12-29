@@ -26,6 +26,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -34,3 +35,36 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# prisma
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# setup and temporary files (consolidated into DOCUMENTATION.md)
+# Old documentation files removed
+
+# backup files
+.env.backup*
+*.backup
+
+# build artifacts
+*.tsbuildinfo
+
+# logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Firebase
+firestore.indexes.json
+firebase-debug.log
+firestore-debug.log
